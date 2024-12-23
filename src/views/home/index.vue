@@ -1,11 +1,24 @@
 <script setup lang='ts'>
-import { useHomeStoreHook } from '../../store/modules/home'
+import { getMockLogin } from '@/api/mock'
 
-useHomeStoreHook().name = 'Home'
+async function login() {
+  await getMockLogin(
+    {
+      username: 'admin',
+      password: 'admin',
+    },
+  ).then((res) => {
+    console.log(res, 'mok')
+  })
+}
+
+login()
 </script>
 
 <template>
-  <div>Home</div>
+  <div class="text-[red]">
+    Home
+  </div>
 </template>
 
 <style lang='less' scoped>

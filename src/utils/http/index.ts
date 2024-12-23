@@ -84,15 +84,15 @@ class CyHttp {
           return response
         }
 
+        if (response.status === 200) {
+          return response.data
+        }
+
         // message tip
         message(getMessageInfo(response.status), {
           customClass: 'el',
           type: 'error',
         })
-
-        if (response.status === 200) {
-          return response.data
-        }
       },
       (error: CyHttpError) => {
         //  插眼

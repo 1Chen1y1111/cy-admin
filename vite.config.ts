@@ -3,7 +3,7 @@ import { getPluginsList } from './build/plugins'
 import { alias, pathResolve, root, wrapperEnv } from './build/utils'
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
-  const { VITE_PORT, VITE_PUBLIC_PATH } = wrapperEnv(loadEnv(mode, root))
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_API_BASEURL } = wrapperEnv(loadEnv(mode, root))
   return {
     root,
     base: VITE_PUBLIC_PATH,
@@ -14,7 +14,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       port: VITE_PORT,
       host: '0.0.0.0',
       proxy: {
-        '/api': {
+        [VITE_API_BASEURL]: {
           target: 'http://target.proxy.com',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),

@@ -10,6 +10,6 @@ export interface UserResultType {
 }
 
 /** login */
-export function getLogin(data: object) {
-  return http.request<UserResultType>('post', '/api/login', { data })
+export function getMockLogin(data: object) {
+  return http.request<UserResultType>('post', '/login', { data })
 }

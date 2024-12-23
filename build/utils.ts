@@ -35,12 +35,13 @@ function wrapperEnv(envConf: Recordable): ViteEnv {
     VITE_PORT: 1016,
     VITE_PUBLIC_PATH: '',
     VITE_ROUTER_HISTORY: '',
+    VITE_API_BASEURL: '/api',
   }
 
   for (const envName of Object.keys(envConf)) {
     let realName = envConf[envName].replace(/\\n/g, '\n')
     realName
-            = realName === 'true'
+      = realName === 'true'
         ? true
         : realName === 'false'
           ? false

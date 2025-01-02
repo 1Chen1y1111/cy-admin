@@ -5,21 +5,25 @@ export default defineFakeRoute([
     url: '/login',
     method: 'post',
     response: ({ body }) => {
-      if (body.username === 'admin') {
+      if (body.account === 'admin') {
         return {
-          success: true,
+          code: 0,
           data: {
-            avatar: 'https://avatars.githubusercontent.com/u/44761321',
+            avatar: 'https://avatars.githubusercontent.com/u/88277615',
             username: 'admin',
             nickname: '1Chen1y1111',
+            roles: ['admin'],
+            accessToken: 'eyJhbGciOiJIUzUxMiJ9.admin',
+            refreshToken: 'eyJhbGciOiJIUzUxMiJ9.adminRefresh',
+            expires: '2030/10/30 00:00:00',
           },
         }
       }
       else {
         return {
-          success: true,
+          code: 0,
           data: {
-            avatar: 'https://avatars.githubusercontent.com/u/52823142',
+            avatar: 'https://p26-passport.byteacctimg.com/img/user-avatar/b4c4486425832d224fd60e8084db23b5~40x40.awebp',
             username: 'common',
             nickname: '2Chen2y2222',
             roles: ['common'],

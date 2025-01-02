@@ -1,15 +1,28 @@
 import { http } from '@/utils/http'
 
 export interface UserResultType {
-  success: boolean
+  code: number
   data: {
     avatar: string
-    name: string
-    age: number
+    username: string
+    nickname: string
+    roles: Array<string>
+    accessToken: string
+    refreshToken: string
+    expires: string
   }
 }
+interface RouterResult {
+  code: number
+  data: Array<any>
+}
 
-/** login */
+/** Mock login */
 export function getMockLogin(data: object) {
-  return http.request<UserResultType>('post', '/login', { data })
+  return http.request<UserResultType>('post', '/mock/login', { data })
+}
+
+/** Mock routes */
+export function getMockAsyncRoutes() {
+  return http.request<RouterResult>('get', '/mock/get-async-routes')
 }

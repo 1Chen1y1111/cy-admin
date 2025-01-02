@@ -1,3 +1,3 @@
-export interface homeType {
+export interface HomeType {
   name: string
 }

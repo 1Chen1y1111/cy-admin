@@ -9,10 +9,11 @@ export interface UserResultType {
     roles: Array<string>
     accessToken: string
     refreshToken: string
+    expires: string
   }
 }
 
 /** login */
 export function getLogin(data: object) {
-  return http.request<UserResultType>('post', '/api/login', { data })
+  return http.request<UserResultType>('post', '/login', { data })
 }

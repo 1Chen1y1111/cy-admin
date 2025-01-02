@@ -1,6 +1,10 @@
+/** global component */
+import CyButton from '@/components/CyButton/index.vue'
+
 /** pinia */
 import { setupStore } from '@/store'
 import { createApp } from 'vue'
+
 import App from './App.vue'
 
 /** elementPlus */
@@ -18,6 +22,7 @@ import './styles/tailwind.css'
 import 'element-plus/dist/index.css'
 
 const app = createApp(App)
+app.component('CyButton', CyButton)
 
 setupStore(app)
 app.use(router).use(useElementPlus)

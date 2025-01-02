@@ -1,8 +1,12 @@
+const Layout = () => import('@/layout/index.vue')
+
 export default {
   path: '/',
+  name: 'Index',
+  component: Layout,
   redirect: '/home/index',
   meta: {
-    rank: 1,
+    rank: 0,
     icon: '',
     title: '首页',
   },

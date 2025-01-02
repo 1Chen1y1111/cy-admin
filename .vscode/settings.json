@@ -58,6 +58,8 @@
     "Iconify",
     "persistedstate",
     "pinia",
+    "pureadmin",
+    "unref",
     "VITE"
   ]
 }

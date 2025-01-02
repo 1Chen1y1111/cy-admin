@@ -1,0 +1,26 @@
+/* 通用tab */
+.el-tabs__header {
+  margin-bottom: 0 !important;
+}
+.el-tabs__active-bar {
+  height: 3px !important;
+  border-radius: 4px !important;
+}
+
+.el-tabs__nav-wrap::after {
+  background-color: transparent !important;
+}
+
+.el-tabs__item {
+  height: 32px !important;
+  padding-right: 36px !important;
+  padding-bottom: 4px !important;
+  padding-left: 0 !important;
+  font-size: 16px !important;
+  color: #6d758e !important;
+
+  &.is-active {
+    font-weight: 600;
+    color: #282c39 !important;
+  }
+}

@@ -6,7 +6,9 @@ defineOptions({
 
 <template>
   <div>
-    <h1>LayIndex</h1>
+    <h1 class="mb-[20px]">
+      LayIndex
+    </h1>
     <!-- <router-link to="error/404">
       404
     </router-link> -->

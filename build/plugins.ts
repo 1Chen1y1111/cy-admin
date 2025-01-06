@@ -1,6 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { vitePluginFakeServer } from 'vite-plugin-fake-server'
+import removeNoMatch from 'vite-plugin-router-warn'
 
 import svgLoader from 'vite-svg-loader'
 
@@ -26,5 +27,7 @@ export function getPluginsList() {
       },
     }),
 
+    /** Remove no match found for location with path warning */
+    removeNoMatch(),
   ]
 }

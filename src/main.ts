@@ -3,6 +3,9 @@ import CyButton from '@/components/CyButton/index.vue'
 
 /** pinia */
 import { setupStore } from '@/store'
+/** motion */
+import { MotionPlugin } from '@vueuse/motion'
+
 import { createApp } from 'vue'
 
 import App from './App.vue'
@@ -25,6 +28,6 @@ const app = createApp(App)
 app.component('CyButton', CyButton)
 
 setupStore(app)
-app.use(router).use(useElementPlus)
+app.use(router).use(MotionPlugin).use(useElementPlus)
 
 app.mount('#app')

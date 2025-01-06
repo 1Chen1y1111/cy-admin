@@ -60,6 +60,7 @@
     "pinia",
     "pureadmin",
     "unref",
-    "VITE"
+    "VITE",
+    "vueuse"
   ]
 }

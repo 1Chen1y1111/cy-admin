@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { initRouter } from '@/router/utils'
+import type { Router } from 'vue-router'
 
+import { getTopMenu, initRouter } from '@/router/utils'
 import { useUserStoreHook } from '@/store/modules/user'
+
+import { message } from '@/utils/message'
+
 import { reactive, ref } from 'vue'
+
 // import { phoneRules } from "../utils/rule";
 // import { debounce } from "@pureadmin/utils";
 
@@ -49,8 +54,11 @@ async function onLogin(formEl: FormInstance | undefined) {
       }).then((res) => {
         console.log('🚀 ~ useUserStoreHook ~ res:', res)
         if (res?.code === 0) {
-          return initRouter().then((res) => {
-            console.log('initrouter', res)
+          return initRouter().then((router: Router) => {
+            console.log('initrouter', router.getRoutes())
+            router.push(getTopMenu().path).then(() => {
+              message('登录成功', { type: 'success' })
+            })
           })
         }
       })

@@ -1,8 +1,9 @@
-import type { RouteComponent, RouteRecordRaw } from 'vue-router'
+import type { menuType } from '@/layout/types'
 import { getMockAsyncRoutes } from '@/api/mock'
 import { usePermissionStoreHook } from '@/store/modules/permission'
 import { useUserStoreHook } from '@/store/modules/user'
 import { cloneDeep, intersection, isAllEmpty } from '@pureadmin/utils'
+import { createWebHashHistory, createWebHistory, type RouteComponent, type RouteRecordRaw, type RouterHistory } from 'vue-router'
 import router from './index'
 
 const IFrame = () => import('@/layout/iframe.vue')
@@ -106,7 +107,6 @@ function handleAsyncRoutes(routesList) {
 }
 
 function addPathMatch() {
-  console.log('🚀 ~ addPathMatch ~ addPathMatch:')
   if (!router.hasRoute('pathMatch')) {
     router.addRoute({
       path: '/:pathMatch(.*)',
@@ -156,6 +156,7 @@ function formatAsyncRoutes(routes: Array<RouteRecordRaw>) {
 function initRouter() {
   return new Promise((resolve) => {
     getMockAsyncRoutes().then(({ data }) => {
+      console.log('🚀 ~ getMockAsyncRoutes ~ data:', data)
       handleAsyncRoutes(cloneDeep(data))
       resolve(router)
     })
@@ -242,6 +243,41 @@ function buildHierarchyTree(tree: any[], pathList = []): any {
   })
 }
 
+/** Get the top menu in all menus */
+function getTopMenu(): menuType {
+  const topMenu = handleTopMenu(
+    usePermissionStoreHook().wholeMenus[0]?.children[0],
+  )
+
+  // 插眼
+  return topMenu
+}
+
+function handleTopMenu(route) {
+  if (!route?.children || route.children.length <= 1) {
+    return route
+  }
+
+  if (route.redirect) {
+    return route.children.find(cur => cur.path === route.redirect)
+  }
+
+  return route.children[0]
+}
+
+/** Get router mode */
+function getHistoryMode(routerHistory): RouterHistory {
+  const [mode, base = ''] = routerHistory.split(',')
+  if (mode === 'hash') {
+    return createWebHashHistory(base)
+  }
+  else if (mode === 'h5') {
+    return createWebHistory(base)
+  }
+
+  throw new Error(`Invalid history mode: ${mode}`)
+}
+
 export {
   buildHierarchyTree,
   filterNoChildrenTree,
@@ -250,6 +286,8 @@ export {
   filterTree,
   format2DRoutes,
   formatFlatteningRoutes,
+  getHistoryMode,
+  getTopMenu,
   initRouter,
   isIntersection,
   reRankRoutes,

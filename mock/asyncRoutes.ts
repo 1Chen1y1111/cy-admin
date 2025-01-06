@@ -25,7 +25,6 @@ const permissionRouter = {
       path: '/permission/button',
       meta: {
         title: '按钮权限',
-        roles: ['admin', 'common'],
       },
       children: [
         {
@@ -39,6 +38,8 @@ const permissionRouter = {
               'permission:btn:edit',
               'permission:btn:delete',
             ],
+            roles: ['admin'],
+
           },
         },
         {
@@ -47,6 +48,7 @@ const permissionRouter = {
           name: 'PermissionButtonTwo',
           meta: {
             title: '按钮二',
+            roles: ['common'],
           },
         },
       ],

@@ -1,19 +1,19 @@
+import { usePermissionStoreHook } from '@/store/modules/permission'
+
 import { useUserStoreHook } from '@/store/modules/user'
-
 import { multipleTabsKey, removeToken } from '@/utils/auth'
-import { buildHierarchyTree, isUrl, openLink } from '@pureadmin/utils'
+import { buildHierarchyTree, isAllEmpty, isUrl, openLink } from '@pureadmin/utils'
 import Cookies from 'js-cookie'
-import NProgress from 'nprogress'
 
+import NProgress from 'nprogress'
 import {
   createRouter,
-  createWebHistory,
   type RouteComponent,
   type Router,
   type RouteRecordRaw,
 } from 'vue-router'
 import remainingRouter from './modules/remaining'
-import { format2DRoutes, formatFlatteningRoutes, isIntersection, reRankRoutes } from './utils'
+import { format2DRoutes, formatFlatteningRoutes, getHistoryMode, initRouter, isIntersection, reRankRoutes } from './utils'
 import 'nprogress/nprogress.css'
 
 /** Auto import static route */
@@ -47,7 +47,7 @@ export const remainingPaths = Object.keys(remainingRouter).map((v) => {
 
 /** Create router instance */
 const router: Router = createRouter({
-  history: createWebHistory(),
+  history: getHistoryMode(import.meta.env.VITE_ROUTE_HISTORY),
   routes: constantRoutes.concat(...remainingRouter),
   strict: true,
 })
@@ -60,14 +60,13 @@ router.beforeEach((_to: ToRouteType, _from, next) => {
   NProgress.start()
 
   const userInfo = useUserStoreHook().userInfo
-
   const externalLink = isUrl(_to?.name as string)
+
   if (!externalLink) {
-    _to.matched.forEach((v) => {
-      if (!v.meta.title)
-        return ''
-      document.title = v.meta.title as string
-    })
+    const matchedRoute = _to.matched.find(v => v.meta.title)
+    if (matchedRoute) {
+      document.title = matchedRoute.meta.title as string
+    }
   }
 
   function toCorrectRoute() {
@@ -78,6 +77,7 @@ router.beforeEach((_to: ToRouteType, _from, next) => {
     // Check permission
     if (_to.meta?.roles && !isIntersection(_to.meta?.roles, userInfo?.roles)) {
       next({ path: '/error/403' })
+      return
     }
 
     if (_from.name) {
@@ -90,20 +90,20 @@ router.beforeEach((_to: ToRouteType, _from, next) => {
       return
     }
 
-    // 插眼
-    // // When the user refreshes the browser
-    // if (usePermissionStoreHook().wholeMenus.length === 0 && _to.path !== 'login') {
-    //   console.log('init router', usePermissionStoreHook().wholeMenus)
-    // }
+    // When the user refreshes the browser
+    if (usePermissionStoreHook().wholeMenus.length === 0 && _to.path !== 'login') {
+      initRouter().then((router: Router) => {
+        // Ensure that dynamic routes are fully added to the routing table and don't affect static routes
+        if (isAllEmpty(_to.name))
+          router.push(_to.fullPath)
+
+        console.log(router.getRoutes(), 'routerrouter')
+      })
+    }
     toCorrectRoute()
   }
   else {
-    if (_to.path === '/login') {
-      next()
-      return
-    }
-
-    if (whiteList.includes(_to.path)) {
+    if (_to.path === '/login' || whiteList.includes(_to.path)) {
       next()
     }
     else {
@@ -112,6 +112,7 @@ router.beforeEach((_to: ToRouteType, _from, next) => {
     }
   }
 })
+
 router.afterEach((_to) => {
   NProgress.done()
 })

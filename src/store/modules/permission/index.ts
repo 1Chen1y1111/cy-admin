@@ -19,10 +19,6 @@ export const usePermissionStore = defineStore({
       this.wholeMenus = filterTree(reRankRoutes(this.constantMenus.concat(routes)))
     },
   },
-  persist: {
-    key: 'cy-permission',
-    storage: window.localStorage,
-  },
 })
 
 export function usePermissionStoreHook() {

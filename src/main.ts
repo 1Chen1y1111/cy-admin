@@ -10,6 +10,9 @@ import { createApp } from 'vue'
 
 import App from './App.vue'
 
+/** register icon */
+import { IconFont, IconifyIconOffline, IconifyIconOnline } from './components/CyIcon'
+
 /** elementPlus */
 import { useElementPlus } from './plugins/elementPlus'
 
@@ -25,7 +28,11 @@ import './styles/tailwind.css'
 import 'element-plus/dist/index.css'
 
 const app = createApp(App)
+
 app.component('CyButton', CyButton)
+app.component('IconFont', IconFont)
+app.component('IconifyIconOffline', IconifyIconOffline)
+app.component('IconifyIconOnline', IconifyIconOnline)
 
 setupStore(app)
 app.use(router).use(MotionPlugin).use(useElementPlus)

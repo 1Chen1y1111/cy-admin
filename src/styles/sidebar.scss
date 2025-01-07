@@ -1,0 +1,41 @@
+@use 'variables' as vars;
+
+#app {
+  //   .sidebar-container {
+  //     position: fixed;
+  //     top: 0;
+  //     left: 0;
+  //     bottom: 0;
+  //     z-index: 1001;
+  //     width: vars.$sideBarWidth !important;
+  //     height: 100%;
+  //     overflow: visible;
+  //     border-right: 1px solid var(--cy-border-color);
+  //   }
+  .hideSidebar {
+    .sidebar-container {
+      width: var(--collapse-sidebar-width);
+      flex: 0 0 var(--collapse-sidebar-width);
+    }
+  }
+
+  .mobile {
+    .sidebar-container {
+      width: var(--sidebar-width);
+      flex: 0 0 var(--sidebar-width);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 2001;
+    }
+
+    &.hideSidebar {
+      .sidebar-container {
+        pointer-events: none;
+        transition-duration: 0.3s;
+        transform: translate3d(calc(-1 * var(--sidebar-width)), 0, 0);
+      }
+    }
+  }
+}
